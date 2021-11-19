@@ -14,8 +14,14 @@ const userSchema = new Schema({
     dob: { type : Date, required: false },
     phoneNumber: { type: String, required: false },
     picture: { type: String,default: "https://nstoryapp.s3.us-east-2.amazonaws.com/74_user-avatar-profile-personal-account-512.png", required: false },
-    
+    isFranchise: {type: Boolean, default: true},
     createdAt: { type : Date, default: Date.now },
+    apartmentNumber: { type: String, required: false },
+    addressLine1: { type: String, required: false },
+    addressLine2: { type: String, required: false },
+    city: { type: String, required: false },
+    province: { type: String, required: false },
+    postalCode: { type: String, required: false },
     tokens: [{
         token: {
             type: String,
