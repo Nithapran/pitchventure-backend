@@ -42,6 +42,11 @@ exports.getAllFranchises = async (req,res,next) => {
     const allFranchises = await User.find().select('name given_name family_name email dob phoneNumber picture isFranchise createdAt apartmentNumber addressLine1 addressLine2 city province postalCode')
     res.status(200).json(new Response(2000,"Success",allFranchises));
 };
+
+exports.getAllFranchises = async (req,res,next) => {
+    const allFranchises = await User.find().select('name given_name family_name email dob phoneNumber picture isFranchise createdAt apartmentNumber addressLine1 addressLine2 city province postalCode')
+    res.status(200).json(new Response(2000,"Success",allFranchises));
+};
     
 
 async function saveuser(newUser,res) {
