@@ -1,10 +1,16 @@
 {
   "name": "Pitchventure-backend ",
   "version": "1.0.0",
+  "configurations": [
+    {
+      "preLaunchTask": "clear-editor-history"
+    }
+  ],
   "description": "Pitchventure backend",
   "main": "index.js",
   "scripts": {
-    "app": "nodemon app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "author": "Nithaparan",
   "license": "ISC",

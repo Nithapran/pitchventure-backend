@@ -4,11 +4,11 @@ require('dotenv').config()
 const bodyParser = require('body-parser');
 const app = express();
 
-const loginRoutes = require('./routes/login');
+const accountRoutes = require('./routes/account');
 
 app.use(express.json())
 
-app.use('/api/login', loginRoutes);
+app.use('/api/account', accountRoutes);
 
 
 app.use((err, req, res, next) => {
