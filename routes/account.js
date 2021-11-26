@@ -3,8 +3,9 @@ const router = express.Router()
 
 const accountController = require('../controllers/accountController');
 
-
+router.get('/appData', accountController.getAppData);
 router.post('/createAccount', accountController.createAccount);
+router.get('/getProfile:accoountId', accountController.getProfile);
 router.post('/franchiseSignup', accountController.franchiseSignup);
 router.post('/storeOwenerSignup', accountController.storeOwenerSignup);
 router.get('/getAllFranchises', accountController.getAllFranchises);

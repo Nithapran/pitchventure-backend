@@ -6,6 +6,7 @@ const accountService = require('../services/accountService');
 var Account = require('../models/account');
 const Franchise = require('../models/franchise');
 const Storeowner = require('../models/storeowner');
+const FranchiseCategory = require('../models/franchiseCategory');
 
 const { OAuth2Client } = require("google-auth-library");
 const Response = require('../models/response');
@@ -40,6 +41,21 @@ exports.createAccount = async (req, res,next) => {
             res.status(200).json(new Response(2000,"",error.message));
         }
     console.log()
+};
+
+exports.getProfile = async (req,res,next) => {
+    const {accountId} = req.params;
+    const franchiseCategories = await FranchiseCategory.find(); 
+    var data = {};
+    data["franchiseCategories"] = franchiseCategories;
+    res.status(200).json(new Response(2000,"Success",data));
+};
+
+exports.getAppData = async (req,res,next) => {
+    const franchiseCategories = await FranchiseCategory.find(); 
+    var data = {};
+    data["franchiseCategories"] = franchiseCategories;
+    res.status(200).json(new Response(2000,"Success",data));
 };
 
 exports.getAllStoreOwners = async (req,res,next) => {
