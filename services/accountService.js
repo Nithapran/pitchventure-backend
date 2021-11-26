@@ -9,3 +9,34 @@ exports.getFranchiseCategories = (franchiseCategories) => {
     });
     return objIds;
   }
+
+exports.saveAccount = async (newAccount,res) => {
+    try {
+        await newAccount.save();
+    const token = await newAccount.generateAuthToken()
+    const refreshToken = await newAccount.generateRefreshToken()
+    //res.status(200).json(new Response(2000,"",{token: token, refreshToken: refreshToken}));
+    } catch (error) {
+        //res.status(200).json(new Response(2000,"",error.code));
+        return(error)
+    }
+    return
+}
+
+exports.saveStoreOwner = async (newStoreOwener,res) => {
+    try {
+        await newStoreOwener.save();
+    } catch (error) {
+        return(error)
+    }
+    return
+}
+
+exports.saveFranchise = async (newfranchise,res) => {
+    try {
+        await newfranchise.save();
+    } catch (error) {
+        return(error)
+    }
+    return
+}

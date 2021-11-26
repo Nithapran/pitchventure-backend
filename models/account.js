@@ -18,9 +18,21 @@ const accountSchema = new Schema({
     picture: { type: String,default: "https://nstoryapp.s3.us-east-2.amazonaws.com/74_user-avatar-profile-personal-account-512.png", required: false },
     createdAt: { type : Date, default: Date.now },
     isComplete: { type : Boolean, default: false },
-    isFranchise: { type : Boolean, default: false };
+    isFranchise: { type : Boolean, default: false },
     franchise: { type: Schema.Types.ObjectId, ref: 'Franchise', required: false },
     storeOwner: { type: Schema.Types.ObjectId, ref: 'Storeowner', required: false },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }],
+    refreshTokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 });
 
 

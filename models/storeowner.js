@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const jwt = require('jsonwebtoken')
 
 const storeownerSchema = new Schema({
-    account: { type: Schema.Types.ObjectId, ref: 'Account', required: false },
+    //account: { type: Schema.Types.ObjectId, ref: 'Account', required: false },
     apartmentNumber: { type: String, required: false },
     addressLine1: { type: String, required: false },
     addressLine2: { type: String, required: false },
