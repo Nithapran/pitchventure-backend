@@ -3,7 +3,8 @@ const router = express.Router()
 
 const requestController = require('../controllers/requestController');
 
-router.post('/sendRequest', requestController.sendRequest);
+router.post('/sendRequest/:franchiseId', requestController.sendRequest);
+router.post('/acceptRequest/:storeOwnerId', requestController.acceptRequest);
 // router.post('/acceptRequest', requestController.acceptRequest);
 // router.post('/rejectRequest', requestController.rejectRequest);
 // router.post('/cancelRequest', requestController.cancelRequest);

@@ -24,8 +24,8 @@ const accountSchema = new Schema({
     tokens: [{
         token: {
             type: String,
-            required: true
-        }
+            required: true,
+        },select: false
     }],
     refreshTokens: [{
         token: {
@@ -62,5 +62,12 @@ accountSchema.statics = {
         return this.findOne(query).then(result => result);
     }
 };
+
+accountSchema.methods.toJSON = function() {
+    var obj = this.toObject()
+    delete obj.tokens
+    delete obj.refreshTokens
+    return obj
+  }
 
 module.exports = mongoose.model('Account', accountSchema,'account');

@@ -18,24 +18,7 @@ exports.createAccount = async (req, res,next) => {
     try {
         await client.verifyIdToken({idToken: tokenId, audience: [process.env.GOOGLE_IOS_CLIENT_ID]}).then(response => {
             const {email_verified, name, email,given_name,family_name,picture} = response.payload
-            Account.findOne({ email }).populate('storeOwner').populate('franchise').exec(function(err, userWithEmail){
-                if(userWithEmail) {
-                    const token = userWithEmail.generateAuthToken()
-                    const refreshToken = userWithEmail.generateRefreshToken()
-                    res.status(200).json(new Response(2000,"",userWithEmail));
-                } else {
-                    const newAccount = new Account({ name: name,givenName: given_name,familyName:family_name,email: email,picture: picture});
-                    accountService.saveAccount(newAccount,res).then((err) => {
-                    if (err) {
-                        res.status(200).json(new Response(2000,"",err));
-                    } else {
-                        const token = newAccount.generateAuthToken()
-                        const refreshToken = newAccount.generateRefreshToken()
-                        res.status(200).json(new Response(2000,"",newAccount.populate('storeOwner').populate('franchise')));
-                    }
-                });
-                }
-                });
+            accountService.signUp(email_verified, name, email,given_name,family_name,picture,res);
             
             
             
@@ -49,12 +32,13 @@ exports.createAccount = async (req, res,next) => {
 
 exports.getProfile = async (req,res,next) => {
     const {accountId} = req.params;
+    console.log(accountId);
     var ObjectId = require('mongoose').Types.ObjectId; 
     await Account.findOne({_id: new ObjectId(accountId)}).exec(function(err, accountWithID){
         if (accountWithID) {
             res.status(200).json(new Response(2000,"",accountWithID));
         } else {
-
+            res.status(200).json(new Response(2000,"","not found"));
         }
     });
 };
@@ -74,10 +58,10 @@ exports.getAllStoreOwners = async (req,res,next) => {
 };
 
 exports.getAllFranchises = async (req,res,next) => {
-    const allStoreOwners = await Account.find({
+    const allFranchises = await Account.find({
         'isFranchise': true
     }).populate('franchise'); 
-    res.status(200).json(new Response(2000,"Success",allStoreOwners));
+    res.status(200).json(new Response(2000,"Success",allFranchises));
 };
  
 exports.storeOwenerSignup = async (req, res,next) => {
@@ -122,10 +106,11 @@ exports.franchiseSignup = async (req, res,next) => {
                     if (err) {
                         res.status(200).json(new Response(2000,"save error",err));
                     } else {
-                        accountWithID.storeOwner = newfranchise;
+                        accountWithID.franchise = newfranchise;
                         accountWithID.isFranchise = true
                         accountWithID.isComplete = true
-                        res.status(200).json(new Response(2000,"",newfranchise));
+                        accountWithID.save();
+                        res.status(200).json(new Response(2000,"",accountWithID));
                     }
                 });
             } catch (error) {
