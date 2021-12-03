@@ -57,3 +57,33 @@ exports.rejectRequest = async (req,res,next) => {
         }
     });
 };
+
+exports.cancelRequest = async (req,res,next) => {
+    const {franchiseId} = req.params;
+    const user = await Account.findOne({"_id": req.user.id}).populate('storeOwner');
+    var ObjectId = require('mongoose').Types.ObjectId; 
+    await Account.findOne({_id: new ObjectId(storeOwnerId)}).populate('franchise').exec(function(err, storeOwnerAccountWithID){
+        if (franchiseAccountWithID) {
+            user.storeOwner.sentRequests.pull(user.id);
+
+            franchiseAccountWithID.franchise.requests.pull(franchiseAccountWithID.id);
+            user.franchise.save()
+            storeOwnerAccountWithID.storeOwner.save()
+            res.status(200).json(new Response(2000,"Success",null));
+        } else {
+            res.status(200).json(new Response(2000,"","sd"));
+        }
+    });
+};
+
+exports.getAllRequests = async (req,res,next) => {
+    const user = await Account.findOne({"_id": req.user.id}).populate('franchise');
+    res.status(200).json(new Response(2000,"Success",user.franchise.requests));
+    
+};
+
+exports.getAllPartneredStoreOwners = async (req,res,next) => {
+    const user = await Account.findOne({"_id": req.user.id}).populate('franchise');
+    res.status(200).json(new Response(2000,"Success",user.franchise.activeFrancises));
+    
+};
