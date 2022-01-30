@@ -14,7 +14,7 @@ exports.signUp = async (email_verified, name, email,given_name,family_name,pictu
             res.status(200).json(new Response(2000,"ww",data));
         } else {
             const newAccount = new Account({ name: name,givenName: given_name,familyName:family_name,email: email,picture: picture});
-            saveAccount(newAccount,res).then(async (err) => {
+            exports.saveAccount(newAccount,res).then(async (err) => {
             if (err) {
                 res.status(200).json(new Response(2000,"",err));
             } else {
