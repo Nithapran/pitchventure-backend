@@ -20,12 +20,13 @@ exports.createAccount = async (req, res,next) => {
             const {email_verified, name, email,given_name,family_name,picture} = response.payload
             accountService.signUp(email_verified, name, email,given_name,family_name,picture,res);
             
-            
-            
-        
-            
+
         })} catch (error) {
-            res.status(200).json(new Response(2000,"",error.message));
+            const error1 = new Error();
+            error1.message = 'Invalid token';
+            error1.code = 4003;
+            error1.status = 403;
+        return next(error1);
         }
     console.log()
 };

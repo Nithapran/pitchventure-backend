@@ -16,9 +16,10 @@ app.use('/api/account', accountRoutes);
 app.use('/api/request', auth,requestRoutes);
 
 app.use((err, req, res, next) => {
-    const status = err.status || 500;
+    const code = err.code || 5000;
+    const status = err.status || 500
     const message = err.message || "Internal server error";
-    res.status(status).json( new Response(status,message,""));
+    res.status(status).json( new Response(code,message,""));
 });
 
 mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true })
