@@ -12,7 +12,9 @@ const storeownerSchema = new Schema({
     postalCode: { type: String, required: false },
     sentRequests: [{ type: Schema.Types.ObjectId, ref: 'Account', required: false }],
     acceptedRequests: [{ type: Schema.Types.ObjectId, ref: 'Account', required: false }],
-    pictures: [{ type: String, required: false }]
+    pictures: [{ type: String, required: false }],
+    countryCode: { type: String, required: false },
+    phoneNumber: { type: String, required: false },
 });
 
 

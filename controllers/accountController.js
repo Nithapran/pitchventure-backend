@@ -26,9 +26,10 @@ exports.createAccount = async (req, res,next) => {
             error1.message = 'Invalid token';
             error1.code = 4003;
             error1.status = 403;
+            console.log(error)
         return next(error1);
         }
-    console.log()
+    
 };
 
 exports.getProfile = async (req,res,next) => {
@@ -66,11 +67,11 @@ exports.getAllFranchises = async (req,res,next) => {
 };
  
 exports.storeOwenerSignup = async (req, res,next) => {
-    const { accountId, apartmentNumber, addressLine1, addressLine2, city, province, postalCode, sentRequests, acceptedRequests, pictures} = req.body;
+    const { accountId, apartmentNumber, addressLine1, addressLine2, city, province, postalCode, sentRequests, acceptedRequests, pictures,countryCode,phoneNumber} = req.body;
     var ObjectId = require('mongoose').Types.ObjectId; 
     await Account.findOne({_id: new ObjectId(accountId)}).exec(function(err, accountWithID){
         if (accountWithID) {
-            const newStoreOwener = new Storeowner({ apartmentNumber: apartmentNumber, addressLine1: addressLine1, addressLine2: addressLine2, city: city, province: province, postalCode: postalCode, pictures: pictures });
+            const newStoreOwener = new Storeowner({ apartmentNumber: apartmentNumber, addressLine1: addressLine1, addressLine2: addressLine2, city: city, province: province, postalCode: postalCode, pictures: pictures,countryCode: countryCode,phoneNumber: phoneNumber });
             try {
                 accountService.saveStoreOwner(newStoreOwener,res).then((err) => {
                     if (err) {
@@ -96,12 +97,12 @@ exports.storeOwenerSignup = async (req, res,next) => {
 }
 
 exports.franchiseSignup = async (req, res,next) => {
-    const { accountId, minimumDeposit,franchiseName,franchiseCategories} = req.body;
+    const { accountId, minimumDeposit,franchiseName,franchiseCategories,countryCode,phoneNumber} = req.body;
     const franchiseCategoryObjects = accountService.getFranchiseCategories(franchiseCategories);
     var ObjectId = require('mongoose').Types.ObjectId;
     await Account.findOne({_id: new ObjectId(accountId)}).exec(function(err, accountWithID){
         if (accountWithID) {
-            const newfranchise = new Franchise({ minimumDeposit: minimumDeposit, franchiseName: franchiseName,franchiseCategory: franchiseCategoryObjects});
+            const newfranchise = new Franchise({ minimumDeposit: minimumDeposit, franchiseName: franchiseName,franchiseCategory: franchiseCategoryObjects,countryCode: countryCode,phoneNumber: phoneNumber });
             try {
                 accountService.saveFranchise(newfranchise,res).then((err) => {
                     if (err) {

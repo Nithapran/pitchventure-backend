@@ -6,7 +6,9 @@ const franchiseSchema = new Schema({
     franchiseCategory: [{ type: Schema.Types.ObjectId, ref: 'FranchiseCategory', required: false }],
     minimumDeposit: { type: Number, required: true },
     requests: [{ type: Schema.Types.ObjectId, ref: 'Account', required: false }],
-    activeFrancises: [{ type: Schema.Types.ObjectId, ref: 'Account', required: false }]
+    activeFrancises: [{ type: Schema.Types.ObjectId, ref: 'Account', required: false }],
+    countryCode: { type: String, required: false },
+    phoneNumber: { type: String, required: false },
 });
 
 
