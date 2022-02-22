@@ -35,7 +35,7 @@ exports.getProfile = async (req,res,next) => {
     const {accountId} = req.params;
     console.log(accountId);
     var ObjectId = require('mongoose').Types.ObjectId; 
-    await Account.findOne({_id: new ObjectId(accountId)}).exec(function(err, accountWithID){
+    await Account.findOne({_id: new ObjectId(accountId)}).populate('storeOwner').populate('franchise').exec(function(err, accountWithID){
         if (accountWithID) {
             res.status(200).json(new Response(2000,"",accountWithID));
         } else {
