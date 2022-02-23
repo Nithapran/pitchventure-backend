@@ -19,6 +19,7 @@ app.use((err, req, res, next) => {
     const code = err.code || 5000;
     const status = err.status || 500
     const message = err.message || "Internal server error";
+    console.log(message);
     res.status(status).json( new Response(code,message,""));
 });
 
