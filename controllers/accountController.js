@@ -50,6 +50,22 @@ exports.createAccount = async (req, res, next) => {
   }
 };
 
+
+exports.appleSignIn = async (req, res, next) => {
+  const { token,email,appleUserId,givenName,familyName } = req.body;
+  if (accountService.validateAppleSignIn(token)) {
+    accountService.signUpApple(token,email,appleUserId,fullName,res)
+  } else {
+    const error1 = new Error();
+    error1.message = "Token validation failed";
+    error1.code = 4003;
+    error1.status = 403;
+    console.log(error1);
+    return next(error1);
+  }
+  
+};
+
 exports.getProfile = async (req, res, next) => {
   const { accountId } = req.params;
   console.log(accountId);

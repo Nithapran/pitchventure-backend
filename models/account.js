@@ -10,8 +10,7 @@ const accountSchema = new Schema({
     family_name: { type: String, required: false },
     email: {
         type: String,
-        unique: true,
-        required: true
+        unique: true
     },
     dob: { type : Date, required: false },
     phoneNumber: { type: String, required: false },
@@ -21,6 +20,10 @@ const accountSchema = new Schema({
     isFranchise: { type : Boolean, default: false },
     franchise: { type: Schema.Types.ObjectId, ref: 'Franchise', required: false },
     storeOwner: { type: Schema.Types.ObjectId, ref: 'Storeowner', required: false },
+    appleUserId: {
+        type: String,
+        unique: true
+    },
     tokens: [{
         token: {
             type: String,
