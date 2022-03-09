@@ -54,7 +54,7 @@ exports.createAccount = async (req, res, next) => {
 exports.appleSignIn = async (req, res, next) => {
   const { token,email,appleUserId,givenName,familyName } = req.body;
   if (accountService.validateAppleSignIn(token)) {
-    accountService.signUpApple(token,email,appleUserId,fullName,res)
+    accountService.signUpApple(token,email,appleUserId,givenName,familyName,res)
   } else {
     const error1 = new Error();
     error1.message = "Token validation failed";
