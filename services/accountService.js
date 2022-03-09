@@ -171,7 +171,7 @@ exports.validateAppleSignIn = async (token) => {
 
 function verifyJWT(json, publicKey) {
   return new Promise((resolve) => {
-    jwt.verify(json, publicKey),
+    jwt.verify(json.toString(), publicKey),
       (err, payload) => {
         if (err) {
           console.log(err);
