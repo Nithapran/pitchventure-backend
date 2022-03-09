@@ -156,7 +156,7 @@ exports.validateAppleSignIn = async (token) => {
 
   const publicKey = await getApplleSignInKeys(kid);
 
-  if (!appleKey) {
+  if (!publicKey) {
     console.log("apple if verification failed");
     return false;
   }
