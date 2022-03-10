@@ -54,7 +54,7 @@ exports.signUp = async (
         });
         exports.saveAccount(newAccount, res).then(async (err) => {
           if (err) {
-            res.status(200).json(new Response(2000, "", err));
+            res.status(500).json(new Response(5000, "Internal server error", err));
           } else {
             var data = newAccount.toJSON();
             const token = await newAccount.generateAuthToken();
@@ -103,7 +103,7 @@ exports.signUpApple = async (
               });
               exports.saveAccount(newAccount, res).then(async (err) => {
                 if (err) {
-                  res.status(200).json(new Response(2000, "", err));
+                    res.status(500).json(new Response(5000, "Internal server error", err));
                 } else {
                   var data = newAccount.toJSON();
                   const token = await newAccount.generateAuthToken();
