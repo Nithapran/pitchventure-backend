@@ -5,7 +5,7 @@ const franchise = require('./franchise');
 const storeOwner = require('./storeowner');
 
 const accountSchema = new Schema({
-    name: { type: String, required: true },
+    name: { type: String, required: false },
     given_name: { type: String, required: false },
     family_name: { type: String, required: false },
     email: {
