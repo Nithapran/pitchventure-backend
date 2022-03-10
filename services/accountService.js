@@ -160,7 +160,7 @@ exports.validateAppleSignIn = async (token) => {
     console.log("apple if verification failed");
     return false;
   }
-  const payload = await verifyJWT(json, publicKey);
+  const payload = await verifyJWT(token, publicKey);
 
   if (!payload) {
     console.log("apple if verification failed");
