@@ -35,7 +35,11 @@ exports.acceptRequest = async (req,res,next) => {
             storeOwnerAccountWithID.storeOwner.save()
             res.status(200).json(new Response(2000,"","Success"));
         } else {
-            res.status(200).json(new Response(2000,"","sd"));
+            const error = new Error();
+            error.message = 'User id not found';
+            error.code = 4004;
+            error.status = 404;
+            next(error);
         }
     });
 };
@@ -53,7 +57,11 @@ exports.rejectRequest = async (req,res,next) => {
             storeOwnerAccountWithID.storeOwner.save()
             res.status(200).json(new Response(2000,"","Success"));
         } else {
-            res.status(200).json(new Response(2000,"","sd"));
+            const error = new Error();
+            error.message = 'User id not found';
+            error.code = 4004;
+            error.status = 404;
+            next(error);
         }
     });
 };
@@ -71,7 +79,11 @@ exports.cancelRequest = async (req,res,next) => {
             storeOwnerAccountWithID.storeOwner.save()
             res.status(200).json(new Response(2000,"Success",null));
         } else {
-            res.status(200).json(new Response(2000,"","sd"));
+            const error = new Error();
+            error.message = 'User id not found';
+            error.code = 4004;
+            error.status = 404;
+            next(error);
         }
     });
 };
