@@ -122,6 +122,7 @@ exports.storeOwenerSignup = async (req, res, next) => {
     pictures,
     countryCode,
     phoneNumber,
+    imageUrl
   } = req.body;
   var ObjectId = require("mongoose").Types.ObjectId;
   await Account.findOne({ _id: new ObjectId(accountId) }).exec(function (
@@ -139,6 +140,7 @@ exports.storeOwenerSignup = async (req, res, next) => {
         pictures: pictures,
         countryCode: countryCode,
         phoneNumber: phoneNumber,
+        imageUrl: imageUrl
       });
       try {
         accountService.saveStoreOwner(newStoreOwener, res).then((err) => {
@@ -180,6 +182,7 @@ exports.franchiseSignup = async (req, res, next) => {
     franchiseCategories,
     countryCode,
     phoneNumber,
+    imageUrl
   } = req.body;
   const franchiseCategoryObjects =
     accountService.getFranchiseCategories(franchiseCategories);
@@ -195,6 +198,7 @@ exports.franchiseSignup = async (req, res, next) => {
         franchiseCategory: franchiseCategoryObjects,
         countryCode: countryCode,
         phoneNumber: phoneNumber,
+        imageUrl: imageUrl
       });
       try {
         accountService.saveFranchise(newfranchise, res).then((err) => {
@@ -227,3 +231,66 @@ exports.franchiseSignup = async (req, res, next) => {
     }
   });
 };
+
+exports.franchiseUpdate = async (req, res, next) => {
+  const {
+    accountId,
+    minimumDeposit,
+    franchiseName,
+    franchiseCategories,
+    countryCode,
+    phoneNumber,
+    imageUrl
+  } = req.body;
+  
+  var ObjectId = require("mongoose").Types.ObjectId;
+  await Account.findOne({ _id: new ObjectId(accountId) }).exec(function (
+    err,
+    accountWithID
+  ) {
+    if (accountWithID) {
+      accountService.updateFranchise(accountWithID,minimumDeposit,franchiseName,franchiseCategories,countryCode,phoneNumber,imageUrl,res,next)
+    } else {
+      const error1 = new Error();
+      error1.message = "Invalid account Id";
+      error1.code = 4003;
+      error1.status = 403;
+      console.log(error1)
+      return next(error1);
+    }
+  });
+};
+
+exports.storeOwnerUpdate = async (req, res, next) => {
+  const {
+    accountId,
+    apartmentNumber,
+    addressLine1,
+    addressLine2,
+    city,
+    province,
+    postalCode,
+    pictures,
+    countryCode,
+    phoneNumber,
+    imageUrl
+  } = req.body;
+  
+  var ObjectId = require("mongoose").Types.ObjectId;
+  await Account.findOne({ _id: new ObjectId(accountId) }).exec(function (
+    err,
+    accountWithID
+  ) {
+    if (accountWithID) {
+      accountService.updateStoreowner(accountWithID,apartmentNumber,addressLine1,addressLine2,city,province,postalCode,pictures,countryCode,phoneNumber,imageUrl,res,next)
+    } else {
+      const error1 = new Error();
+      error1.message = "Invalid account Id";
+      error1.code = 4003;
+      error1.status = 403;
+      console.log(error1)
+      return next(error1);
+    }
+  });
+};
+
