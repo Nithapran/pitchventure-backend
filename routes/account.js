@@ -5,6 +5,7 @@ const accountController = require('../controllers/accountController');
 
 router.get('/appData', accountController.getAppData);
 router.post('/createAccount', accountController.createAccount);
+router.post('/appleSignIn',accountController.appleSignIn)
 router.get('/getProfile/:accountId', accountController.getProfile);
 router.post('/franchiseSignup', accountController.franchiseSignup);
 router.post('/storeOwenerSignup', accountController.storeOwenerSignup);
