@@ -1,5 +1,7 @@
 const Response = require('../models/response');
 const Account = require('../models/account');
+const Storeowner = require("../models/storeowner");
+const requestService = require("../services/requestService");
 
 
 exports.sendRequest = async (req,res,next) => {
@@ -90,12 +92,14 @@ exports.cancelRequest = async (req,res,next) => {
 
 exports.getAllRequests = async (req,res,next) => {
     const user = await Account.findOne({"_id": req.user.id}).populate('franchise');
-    res.status(200).json(new Response(2000,"Success",user.franchise.requests));
+    var storeOwners = await requestService.getStoreOwners(user.franchise.requests);
+    res.status(200).json(new Response(2000,"Success",storeOwners));
     
 };
 
 exports.getAllPartneredStoreOwners = async (req,res,next) => {
     const user = await Account.findOne({"_id": req.user.id}).populate('franchise');
-    res.status(200).json(new Response(2000,"Success",user.franchise.activeFrancises));
+    var storeOwners = await requestService.getStoreOwners(user.franchise.activeFrancises);
+    res.status(200).json(new Response(2000,"Success",storeOwners));
     
 };
