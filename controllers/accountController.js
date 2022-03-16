@@ -143,7 +143,7 @@ exports.storeOwenerSignup = async (req, res, next) => {
         imageUrl: imageUrl
       });
       try {
-        accountService.saveStoreOwner(newStoreOwener, res).then((err) => {
+        accountService.saveStoreowner(newStoreOwener, res).then((err) => {
           if (err) {
             const error1 = new Error();
             error1.message = "Saving failed";
