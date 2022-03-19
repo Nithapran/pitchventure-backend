@@ -240,7 +240,8 @@ exports.franchiseUpdate = async (req, res, next) => {
     franchiseCategories,
     countryCode,
     phoneNumber,
-    imageUrl
+    imageUrl,
+    picture
   } = req.body;
   
   var ObjectId = require("mongoose").Types.ObjectId;
@@ -249,6 +250,8 @@ exports.franchiseUpdate = async (req, res, next) => {
     accountWithID
   ) {
     if (accountWithID) {
+      accountWithID.picture = picture
+      accountService.saveAccount(accountWithID)
       accountService.updateFranchise(accountWithID,minimumDeposit,franchiseName,franchiseCategories,countryCode,phoneNumber,imageUrl,res,next)
     } else {
       const error1 = new Error();
