@@ -11,7 +11,8 @@ admin.initializeApp({
   exports.onLogin =  (account) => {
     var payload = {
         data: {
-            MyKey1: "Logged In"
+            title: 'Login',
+    body: 'You are logged in successfully!!'
         }
     };
 
