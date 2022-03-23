@@ -7,7 +7,8 @@ admin.initializeApp({
   databaseURL: "https://pitchventure-bc3a3-default-rtdb.firebaseio.com"
 });
 
-function onLogin(account) {
+
+  exports.onLogin =  (account) => {
     var payload = {
         data: {
             MyKey1: "Logged In"
