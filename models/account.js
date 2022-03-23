@@ -36,7 +36,7 @@ const accountSchema = new Schema({
             required: true
         }
     }],
-    fcmToken: [{ type: String, required: false }],
+    fcmToken: [{ type: String, required: false,unique: true }],
 });
 
 
