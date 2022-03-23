@@ -9,19 +9,19 @@ admin.initializeApp({
 
 
   exports.onLogin =  (account) => {
-    var payload = {
-        data: {
-            title: 'Login',
-    body: 'You are logged in successfully!!'
+    const message = {
+        notification: {
+          title: 'Login',
+          body: 'You are logged in successfully!!'
         }
-    };
+      };
 
     var options = {
         priority: "high",
         timeToLive: 60 * 60 * 24
     };
     account.fcmToken.forEach(token => 
-        admin.messaging().sendToDevice(token, payload, options).then(function(response){
+        admin.messaging().sendToDevice(token, message, options).then(function(response){
             console.log("Successfully sent message", response);
         })
         .catch(function(error) {
