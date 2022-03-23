@@ -19,6 +19,8 @@ admin.initializeApp({
         priority: "high",
         timeToLive: 60 * 60 * 24
     };
+    console.log(account)
+    console.log(account.fcmToken.first)
     admin.messaging().sendToDevice(account.fcmToken.first, payload, options).then(function(response){
         console.log("Successfully sent message", response);
     })
