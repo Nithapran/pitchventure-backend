@@ -21,6 +21,9 @@ admin.initializeApp({
         timeToLive: 60 * 60 * 24
     };
     account.fcmToken.forEach(token => 
+      
+        
+
         admin.messaging().sendToDevice(token, message, options).then(function(response){
             console.log("Successfully sent message", response);
         })

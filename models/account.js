@@ -55,6 +55,13 @@ accountSchema.methods.generateAuthToken = async function() {
 accountSchema.methods.saveFcmToken = async function(token) {
     // Generate an auth token for the user
     const user = this
+    if (token == null ) {
+        return
+    }
+
+    if (token == "" ) {
+        return
+    }
     user.fcmToken.push(token)
     await user.save()
     return 
