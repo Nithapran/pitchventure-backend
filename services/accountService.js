@@ -44,7 +44,7 @@ exports.signUp = async (
       if (userWithEmail) {
         const token = await userWithEmail.generateAuthToken();
         const refreshToken = await userWithEmail.generateRefreshToken();
-        await userWithEmail.saveFcmToken((fcmToken));
+        await userWithEmail.saveFcmToken(fcmToken);
         var data = userWithEmail.toJSON();
         data["token"] = token;
         data["refreshToken"] = refreshToken;
@@ -66,7 +66,7 @@ exports.signUp = async (
             var data = newAccount.toJSON();
             const token = await newAccount.generateAuthToken();
             const refreshToken = await newAccount.generateRefreshToken();
-            await newAccount.saveFcmToken((fcmToken));
+            await newAccount.saveFcmToken(fcmToken);
             data["token"] = token;
             data["refreshToken"] = refreshToken;
             notificationService.onLogin(newAccount)

@@ -19,12 +19,13 @@ admin.initializeApp({
         priority: "high",
         timeToLive: 60 * 60 * 24
     };
-    console.log(account)
-    console.log(account.fcmToken.first)
-    admin.messaging().sendToDevice(account.fcmToken.first, payload, options).then(function(response){
-        console.log("Successfully sent message", response);
-    })
-    .catch(function(error) {
-        console.log("Error in sending message", error);
-    });
+    account.fcmToken.forEach(token => 
+        admin.messaging().sendToDevice(token, payload, options).then(function(response){
+            console.log("Successfully sent message", response);
+        })
+        .catch(function(error) {
+            console.log("Error in sending message", error);
+        });
+        );
+    
   }
