@@ -30,3 +30,26 @@ admin.initializeApp({
         );
     
   }
+
+  exports.onRequest =  (franchise,storeOwner) => {
+    const message = {
+        notification: {
+          title: 'New Request',
+          body: storeOwner.name + 'sent you a request'
+        }
+      };
+
+    var options = {
+        priority: "high",
+        timeToLive: 60 * 60 * 24
+    };
+    franchise.fcmToken.forEach(token => 
+        admin.messaging().sendToDevice(token, message, options).then(function(response){
+            console.log("Successfully sent message", response);
+        })
+        .catch(function(error) {
+            console.log("Error in sending message", error);
+        })
+        );
+    
+  }

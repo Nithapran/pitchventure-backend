@@ -3,6 +3,8 @@ const Account = require('../models/account');
 const Storeowner = require("../models/storeowner");
 const requestService = require("../services/requestService");
 
+const notificationService = require("../services/notificationService");
+
 
 exports.sendRequest = async (req,res,next) => {
     const {franchiseId} = req.params;
@@ -15,6 +17,7 @@ exports.sendRequest = async (req,res,next) => {
             user.storeOwner.sentRequests.addToSet(franchiseAccountWithID);
             user.storeOwner.save()
             franchiseAccountWithID.franchise.save()
+            notificationService.onRequest(franchiseAccountWithID,user)
             res.status(200).json(new Response(2000,"","Success"));
         } else {
             res.status(200).json(new Response(2000,"","sd"));
