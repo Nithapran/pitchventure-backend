@@ -16,6 +16,7 @@ const client = new OAuth2Client(process.env.GOOGLE_WEB_CLIENT_ID);
 exports.createAccount = async (req, res, next) => {
   const { tokenId } = req.body;
   const { fcmToken } = req.body;
+  console.log("Fcm Token:" + fcmToken)
   try {
     await client
       .verifyIdToken({
