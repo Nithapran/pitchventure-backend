@@ -35,7 +35,8 @@ const accountSchema = new Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+    fcmToken: [{ type: String, required: false }],
 });
 
 
@@ -49,6 +50,14 @@ accountSchema.methods.generateAuthToken = async function() {
     user.tokens = user.tokens.concat({token})
     await user.save()
     return token
+}
+
+accountSchema.methods.saveFcmToken = async function(token) {
+    // Generate an auth token for the user
+    const user = this
+    user.fcmToken = user.fcmToken.push(token)
+    await user.save()
+    return 
 }
 
 accountSchema.methods.generateRefreshToken = async function() {

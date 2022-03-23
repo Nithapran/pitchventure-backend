@@ -7,6 +7,8 @@ const Franchise = require("../models/franchise");
 const Storeowner = require("../models/storeowner");
 const jwksClient = require("jwks-rsa");
 
+const notificationService = require("../services/notificationService");
+
 const client = jwksClient({
   jwksUri: "https://appleid.apple.com/auth/keys",
 });
@@ -32,6 +34,7 @@ exports.signUp = async (
   given_name,
   family_name,
   picture,
+  fcmToken,
   res
 ) => {
   Account.findOne({ email })
@@ -41,9 +44,11 @@ exports.signUp = async (
       if (userWithEmail) {
         const token = await userWithEmail.generateAuthToken();
         const refreshToken = await userWithEmail.generateRefreshToken();
+        await userWithEmail.saveFcmToken((fcmToken));
         var data = userWithEmail.toJSON();
         data["token"] = token;
         data["refreshToken"] = refreshToken;
+        notificationService.onLogin(userWithEmail)
         res.status(200).json(new Response(2000, "ww", data));
       } else {
         const newAccount = new Account({
@@ -61,8 +66,10 @@ exports.signUp = async (
             var data = newAccount.toJSON();
             const token = await newAccount.generateAuthToken();
             const refreshToken = await newAccount.generateRefreshToken();
+            await newAccount.saveFcmToken((fcmToken));
             data["token"] = token;
             data["refreshToken"] = refreshToken;
+            notificationService.onLogin(newAccount)
             res.status(200).json(new Response(2000, "", data));
           }
         });
