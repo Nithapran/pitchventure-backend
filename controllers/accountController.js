@@ -307,7 +307,7 @@ exports.storeOwnerUpdate = async (req, res, next) => {
 function markPromotionExpired(accounts) {
   const accounts_altered = accounts.map(account => {
     console.log(account.name);
-    if (account.isFranchise) {
+    if (!account.isFranchise) {
       if (checkPromotionExpired(account.storeOwner.sponsoredProfileExpiryDate)) {
         account.storeOwner.isProfileSponsored = false;
         const so = account.storeOwner

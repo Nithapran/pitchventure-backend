@@ -11,7 +11,7 @@ const franchiseSchema = new Schema({
     phoneNumber: { type: String, required: false },
     imageUrl: {type: String, required: false},
     isProfileSponsored: {type: Boolean, default: false, required: false},
-    sponsoredProfileExpiryDate: {type: Date, default: Date.now, required: false}
+    sponsoredProfileExpiryDate: {type: Date, required: false}
 });
 
 
