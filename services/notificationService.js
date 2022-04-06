@@ -56,3 +56,49 @@ admin.initializeApp({
         );
     
   }
+
+  exports.onAccept =  (franchise,storeOwner) => {
+    const message = {
+        notification: {
+          title: 'Request accepted',
+          body: franchise.name + 'accepted your request'
+        }
+      };
+
+    var options = {
+        priority: "high",
+        timeToLive: 60 * 60 * 24
+    };
+    franchise.fcmToken.forEach(token => 
+        admin.messaging().sendToDevice(token, message, options).then(function(response){
+            console.log("Successfully sent message", response);
+        })
+        .catch(function(error) {
+            console.log("Error in sending message", error);
+        })
+        );
+    
+  }
+
+  exports.onReject =  (franchise,storeOwner) => {
+    const message = {
+        notification: {
+          title: 'Request rejected',
+          body: 'Your request to '+franchise.name + 'is rejected.'
+        }
+      };
+
+    var options = {
+        priority: "high",
+        timeToLive: 60 * 60 * 24
+    };
+    franchise.fcmToken.forEach(token => 
+        admin.messaging().sendToDevice(token, message, options).then(function(response){
+            console.log("Successfully sent message", response);
+        })
+        .catch(function(error) {
+            console.log("Error in sending message", error);
+        })
+        );
+    
+  }

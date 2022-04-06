@@ -9,8 +9,7 @@ const accountSchema = new Schema({
     given_name: { type: String, required: false },
     family_name: { type: String, required: false },
     email: {
-        type: String,
-        unique: true
+        type: String
     },
     dob: { type : Date, required: false },
     phoneNumber: { type: String, required: false },
@@ -21,8 +20,7 @@ const accountSchema = new Schema({
     franchise: { type: Schema.Types.ObjectId, ref: 'Franchise', required: false },
     storeOwner: { type: Schema.Types.ObjectId, ref: 'Storeowner', required: false },
     appleUserId: {
-        type: String,
-        unique: true
+        type: String
     },
     tokens: [{
         token: {

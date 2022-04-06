@@ -38,6 +38,7 @@ exports.acceptRequest = async (req,res,next) => {
             user.franchise.activeFrancises.addToSet(storeOwnerAccountWithID.id);
             user.franchise.save()
             storeOwnerAccountWithID.storeOwner.save()
+            notificationService.onAccept(user,storeOwnerAccountWithID)
             res.status(200).json(new Response(2000,"","Success"));
         } else {
             const error = new Error();
@@ -60,6 +61,7 @@ exports.rejectRequest = async (req,res,next) => {
             user.franchise.requests.pull(storeOwnerAccountWithID.id);
             user.franchise.save()
             storeOwnerAccountWithID.storeOwner.save()
+            notificationService.onReject(user,storeOwnerAccountWithID)
             res.status(200).json(new Response(2000,"","Success"));
         } else {
             const error = new Error();

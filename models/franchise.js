@@ -9,7 +9,9 @@ const franchiseSchema = new Schema({
     activeFrancises: [{ type: Schema.Types.ObjectId, ref: 'Account', required: false }],
     countryCode: { type: String, required: false },
     phoneNumber: { type: String, required: false },
-    imageUrl: {type: String, required: false}
+    imageUrl: {type: String, required: false},
+    isProfileSponsored: {type: Boolean, default: false, required: false},
+    sponsoredProfileExpiryDate: {type: Date, required: false}
 });
 
 

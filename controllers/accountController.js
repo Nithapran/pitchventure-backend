@@ -101,14 +101,16 @@ exports.getAllStoreOwners = async (req, res, next) => {
   const allStoreOwners = await Account.find({
     isFranchise: false,
   }).populate("storeOwner");
-  res.status(200).json(new Response(2000, "Success", allStoreOwners));
+  let altered = markPromotionExpired(allStoreOwners)
+  res.status(200).json(new Response(2000, "Success", altered));
 };
 
 exports.getAllFranchises = async (req, res, next) => {
   const allFranchises = await Account.find({
     isFranchise: true,
   }).populate("franchise");
-  res.status(200).json(new Response(2000, "Success", allFranchises));
+  let altered = markPromotionExpired(allFranchises)
+  res.status(200).json(new Response(2000, "Success", altered));
 };
 
 exports.storeOwenerSignup = async (req, res, next) => {
@@ -244,7 +246,8 @@ exports.franchiseUpdate = async (req, res, next) => {
     countryCode,
     phoneNumber,
     imageUrl,
-    picture
+    picture,
+    isProfileSponsored,
   } = req.body;
   
   var ObjectId = require("mongoose").Types.ObjectId;
@@ -255,7 +258,7 @@ exports.franchiseUpdate = async (req, res, next) => {
     if (accountWithID) {
       accountWithID.picture = picture
       accountService.saveAccount(accountWithID)
-      accountService.updateFranchise(accountWithID,minimumDeposit,franchiseName,franchiseCategories,countryCode,phoneNumber,imageUrl,res,next)
+      accountService.updateFranchise(accountWithID,minimumDeposit,franchiseName,franchiseCategories,countryCode,phoneNumber,imageUrl,picture,isProfileSponsored,res,next)
     } else {
       const error1 = new Error();
       error1.message = "Invalid account Id";
@@ -279,7 +282,8 @@ exports.storeOwnerUpdate = async (req, res, next) => {
     pictures,
     countryCode,
     phoneNumber,
-    imageUrl
+    imageUrl,
+    isProfileSponsored
   } = req.body;
   
   var ObjectId = require("mongoose").Types.ObjectId;
@@ -288,7 +292,7 @@ exports.storeOwnerUpdate = async (req, res, next) => {
     accountWithID
   ) {
     if (accountWithID) {
-      accountService.updateStoreowner(accountWithID,apartmentNumber,addressLine1,addressLine2,city,province,postalCode,pictures,countryCode,phoneNumber,imageUrl,res,next)
+      accountService.updateStoreowner(accountWithID,apartmentNumber,addressLine1,addressLine2,city,province,postalCode,pictures,countryCode,phoneNumber,imageUrl,isProfileSponsored,res,next)
     } else {
       const error1 = new Error();
       error1.message = "Invalid account Id";
@@ -300,3 +304,46 @@ exports.storeOwnerUpdate = async (req, res, next) => {
   });
 };
 
+function markPromotionExpired(accounts) {
+  const accounts_altered = accounts.map(account => {
+    console.log(account.name);
+    if (account.isFranchise) {
+      if (checkPromotionExpired(account.storeOwner.sponsoredProfileExpiryDate)) {
+        account.storeOwner.isProfileSponsored = false;
+        const so = account.storeOwner
+        so.save()
+        return account
+      } else {
+        return account
+      }
+    } else {
+      if (checkPromotionExpired(account.franchise.sponsoredProfileExpiryDate)) {
+        account.franchise.isProfileSponsored = false;
+        const fr = account.franchise
+        fr.save()
+        return account
+      } else {
+        return account
+      }
+    }
+    
+   
+})
+return  accounts_altered;
+}
+
+function checkPromotionExpired(date){
+  console.log(date);
+  if (date) {
+    console.log(date+"sssssss");
+    const currentDate = new Date(); 
+  if(currentDate.getTime() > date.getTime()){
+    console.log(date+"true");
+    return true;
+  }
+  console.log(date+"asdasd");
+  return false;
+  }
+  console.log(date+"as");
+  return false;
+}

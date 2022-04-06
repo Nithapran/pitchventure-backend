@@ -207,7 +207,7 @@ exports.saveStoreowner = async (newStoreOwener, res) => {
   return;
 };
 
-exports.updateFranchise = async (accountWithID,minimumDeposit,franchiseName,franchiseCategories,countryCode,phoneNumber,imageUrl,res,next) => {
+exports.updateFranchise = async (accountWithID,minimumDeposit,franchiseName,franchiseCategories,countryCode,phoneNumber,imageUrl,picture,isProfileSponsored,res,next) => {
   const franchiseCategoryObjects =
   exports.getFranchiseCategories(franchiseCategories);
   await Franchise.findOne({ _id: accountWithID.franchise }).exec(function (
@@ -221,6 +221,10 @@ exports.updateFranchise = async (accountWithID,minimumDeposit,franchiseName,fran
       franchiseWithID.countryCode = countryCode != null ? countryCode : franchiseWithID.countryCode
       franchiseWithID.phoneNumber = phoneNumber != null ? phoneNumber : franchiseWithID.phoneNumber
       franchiseWithID.imageUrl = imageUrl != null ? imageUrl : franchiseWithID.imageUrl
+      if (isProfileSponsored) {
+        franchiseWithID.isProfileSponsored = isProfileSponsored != null ? isProfileSponsored : storeOwnerWithID.isProfileSponsored
+        franchiseWithID.sponsoredProfileExpiryDate = getProfileExpiryDate()
+      }
       try {
         exports.saveFranchise(franchiseWithID, res).then((err) => {
           if (err) {
@@ -245,7 +249,7 @@ exports.updateFranchise = async (accountWithID,minimumDeposit,franchiseName,fran
    } );   
 };
 
-exports.updateStoreowner = async (accountWithID,apartmentNumber,addressLine1,addressLine2,city,province,postalCode,pictures,countryCode,phoneNumber,imageUrl,res,next) => {
+exports.updateStoreowner = async (accountWithID,apartmentNumber,addressLine1,addressLine2,city,province,postalCode,pictures,countryCode,phoneNumber,imageUrl,isProfileSponsored,res,next) => {
   
   await Storeowner.findOne({ _id: accountWithID.storeOwner }).exec(function (
     err,
@@ -262,6 +266,11 @@ exports.updateStoreowner = async (accountWithID,apartmentNumber,addressLine1,add
       storeOwnerWithID.countryCode = countryCode != null ? countryCode : storeOwnerWithID.countryCode
       storeOwnerWithID.phoneNumber = phoneNumber != null ? phoneNumber : storeOwnerWithID.phoneNumber
       storeOwnerWithID.imageUrl = imageUrl != null ? imageUrl : storeOwnerWithID.imageUrl
+      if (isProfileSponsored) {
+        storeOwnerWithID.isProfileSponsored = isProfileSponsored != null ? isProfileSponsored : storeOwnerWithID.isProfileSponsored
+        storeOwnerWithID.sponsoredProfileExpiryDate = getProfileExpiryDate()
+      }
+      
       try {
         exports.saveStoreowner(storeOwnerWithID, res).then((err) => {
           if (err) {
@@ -286,3 +295,8 @@ exports.updateStoreowner = async (accountWithID,apartmentNumber,addressLine1,add
     }
    } );   
 };
+
+function getProfileExpiryDate() {
+  var expiredate = new Date(Date.now() + 12096e5);
+  return expiredate
+}
