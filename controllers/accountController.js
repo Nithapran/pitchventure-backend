@@ -317,7 +317,7 @@ function markPromotionExpired(accounts) {
         return account
       }
     } else {
-      if (checkPromotionExpired(account.franchise.sponsoredProfileExpiryDate)) {
+      if (checkPromotionExpired(account.franchise?.sponsoredProfileExpiryDate)) {
         account.franchise.isProfileSponsored = false;
         const fr = account.franchise
         fr.save()
